@@ -1,3 +1,4 @@
+
 const fallbackWebsite = "https://youtu.be/dQw4w9WgXcQ";
 
 const endpointSquad = 'items/person/?filter={"squads":{"squad_id":15}}';

@@ -4,11 +4,92 @@
 // iedereen: https://fdnd.directus.app/items/person/?fields=id,name,github_handle,avatar&filter={%22squads%22:{%22squad_id%22:{%22name%22:%22Minor%20Web%20Dev%22}}}&sort=name
 
 const baseURL = 'https://fdnd.directus.app/';
-const endpointMe = 'items/person/67';
+
+
+const endpointSquad = 'items/person/?filter={"squads":{"squad_id":15}}';
+const endpointMe = 'items/person/221';
+// hier beschrijven we de url die we willen gebruiken om mijn data te vinden
+const urlMe = baseURL + endpointMe;
+// hier zetten we de twee url's die we hebben om data op te halen in een variabele
+
+console.log(urlMe);
+
+
+
+getData(urlMe).then( dataget => {
+	console.log(dataget.data);
+	const myData = dataget.data;
+	const myName = myData.name;
+	const myImgSrc = myData.avatar;
+	const myDate = myData.birthdate;
+	// hier maken we de variabelen die we nodig hebben een constanten.
+
+	const mySection = document.querySelector('section:nth-of-type(1)');
+	const myh1 = document.querySelector('h1');
+
+	myh1.textContent = myName;
+
+	if (!myImgSrc) {
+		 			myImgSrc = "images/placeholder1.svg";
+		 		}
+
+
+	const myImg = document.createElement("img");
+	const myp = document.createElement("p");
+
+	myImg.src = myImgSrc;
+	myImg.alt = myName;
+
+	mySection.append(myImg);
+	mySection.append(myDate);
+
+});
+
+const fallbackWebsite = "https://youtu.be/dQw4w9WgXcQ";
+
+UrlDing = baseURL + endpointSquad;
 
 
 
 
+	getData(UrlDing).then( allDataGet => { 
+	
+		const list = document.querySelector('section:nth-of-type(2)');
+		
+		console.log(allDataGet.data);
+
+		const allPersons = allDataGet.data;
+		console.log(allPersons.data);
+
+		allPersons.forEach(person => {
+
+			const personName = person.name;
+			let personImgSrc = person.avatar;
+			let personWebsite = person.website;
+
+			if ( personImgSrc ) {
+
+			} else {
+				const randomNr = Math.floor( Math.random() * 5 ) + 1;
+				personImgSrc = `images/placeholder${randomNr}.svg`;
+			}
+
+			if ( personWebsite ) {
+			} else {
+				personWebsite = fallbackWebsite;
+			}
+
+		let personHtml = `<article>
+		<h3>${personName}</h3>
+		<img src="${personImgSrc}" alt="${personName}">
+		<a href="${personWebsite}" aria-label="de website van ${personName}">website</a>
+		</article>`;
+
+		list.insertAdjacentHTML('beforeend', personHtml);
+	
+});
+
+})
 
 
 
